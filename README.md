@@ -24,6 +24,13 @@ docker exec -it postgres /bin/sh
 
 migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose up
 
+/gera código para inserir, listar dados
+docker pull kjconroy/sqlc
+docker run --rm -v "$(pwd)":/src -w /src kjconroy/sqlc generate
+
+go mod init github.com/Jennyads/go-finance
+go mod tidy
+
 ````
 
 up: adicionar algo
