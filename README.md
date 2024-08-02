@@ -36,3 +36,41 @@ go mod tidy
 up: adicionar algo
 down: remover algo do projeto
 
+
+
+## SQLC:
+O sqlc é uma ferramenta que gera código fortemente tipado a partir de consultas SQL. Você escreve suas consultas em SQL, e o sqlc compila essas consultas em funções e estruturas de dados na linguagem de programação de sua escolha (como Go, Kotlin, Python, ou TypeScript). Isso permite interações seguras e eficientes com o banco de dados, aproveitando a segurança de tipo e melhorando a manutenibilidade do código.
+
+````
+-- query/get_user.sql
+SELECT id, name, email FROM users WHERE id = $1;
+````
+
+````
+package main
+
+import (
+    "database/sql"
+    "log"
+
+    "your_project/internal/db"
+)
+
+func main() {
+    conn, err := sql.Open("postgres", "your_connection_string")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    queries := db.New(conn)
+    user, err := queries.GetUser(ctx, 1)
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    log.Println(user.Name)
+}
+
+````
+
+
