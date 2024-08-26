@@ -1,7 +1,9 @@
 createDb:
-	createdb --username=postgres --owner=postgres go_finance
+	docker exec -it postgres createdb --username=postgres --owner=postgres go_finance
 
 postgres:
+	docker stop postgres || true
+	docker rm postgres || true
 	docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:14-alpine
 
 migrationUp:
@@ -10,4 +12,4 @@ migrationUp:
 migrationDrop:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/go_finance?sslmode=disable" -verbose drop
 
-.PHONY: createDb postgres
+.PHONY: createDb postgres migrationUp migrationDrop
